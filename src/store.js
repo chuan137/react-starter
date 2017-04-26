@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
 import thunk from 'redux-thunk'
-import logger from 'redux-logger'
+import { createLogger } from 'redux-logger'
 import promiseMiddleware from 'redux-promise-middleware'
 import devTools from 'remote-redux-devtools'
 import reducers from './reducers'
@@ -13,15 +13,16 @@ export default function configureStore(initialState) {
   const enhancer = compose(
     applyMiddleware(
       thunk, 
-      logger,
-      promiseMiddleware,
+      promiseMiddleware(),
+      createLogger({duration: true}),  // must behind thunk
       routerMiddleware(history)
     ),
     devTools()
   )
-  const reducer = combineReducers({
+
+  const rootReducer = combineReducers({
     ...reducers,
     router: routerReducer
   })
-  return createStore(reducer, initialState, enhancer)
+  return createStore(rootReducer, initialState, enhancer)
 }

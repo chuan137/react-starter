@@ -1,6 +1,7 @@
-import { combineReducers } from 'redux'
-import dummy from './dummy'
+import foo from './foo'
+import bar from './bar'
 
-export default  combineReducers({
-  dummy
-})
+export default  {
+  foo,
+  bar
+}

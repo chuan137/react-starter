@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import logo from './logo.svg';
 import './App.css';
 
-import { foo } from './actions/foo'
+import { foo, asyncFoo, asyncFooFail } from './actions/foo'
 
 class App extends Component {
   render() {
-    this.props.dispatch(foo())
+    const {foo, asyncFoo, asyncFooFail } = this.props
+    foo();
     return (
       <div className="App">
         <div className="App-header">
@@ -17,9 +18,15 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
+        <p className="App-intro">
+          <button onClick={() => asyncFoo()}>Click</button> to trigger action `asyncFoo()`
+        </p>
+        <p className="App-intro">
+          <button onClick={() => asyncFooFail()}>Click</button> to trigger action `asyncFooFail()`
+        </p>
       </div>
     );
   }
 }
 
-export default connect()(App);
+export default connect(null, {foo, asyncFoo, asyncFooFail})(App);
