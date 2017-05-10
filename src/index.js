@@ -16,3 +16,6 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 );
+
+// eslint-disable-next-line
+import feathersClient from './feathers/feathersapp'

@@ -7,6 +7,8 @@
     "remote-redux-devtools": "^0.5.7"
   },
   "dependencies": {
+    "feathers": "^2.1.2",
+    "feathers-rest": "^1.7.2",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.4",
