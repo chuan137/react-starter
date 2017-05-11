@@ -2,22 +2,22 @@ import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
 import thunk from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 import promiseMiddleware from 'redux-promise-middleware'
-import devTools from 'remote-redux-devtools'
 import reducers from './reducers'
 import createHistory from 'history/createBrowserHistory'
 import { routerReducer, routerMiddleware } from 'react-router-redux'
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+
 export const history = createHistory()
 
 export default function configureStore(initialState) {
-  const enhancer = compose(
+  const enhancer = composeEnhancers(
     applyMiddleware(
-      thunk, 
+      thunk,
       promiseMiddleware(),
-      createLogger({duration: true}),  // must behind thunk
+      createLogger({ duration: true }),  // must behind thunk
       routerMiddleware(history)
-    ),
-    devTools()
+    )
   )
 
   const rootReducer = combineReducers({
