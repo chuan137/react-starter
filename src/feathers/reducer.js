@@ -1,3 +1,4 @@
+import _reduce from 'lodash/reduce'
 
 const initState = {
   data: [],
@@ -14,7 +15,7 @@ function constCreator (serviceName) {
   }
 }
 
-function reducerCreator(serviceName, endpoint) {
+export default function createReducer(serviceName, endpoint) {
   endpoint = endpoint ? endpoint : serviceName;
   const A = constCreator(serviceName) 
 
@@ -33,7 +34,7 @@ function reducerCreator(serviceName, endpoint) {
           return {
             ...initState,
             error: true,
-            message: payload.error.message
+            message: action.payload.error.message
           }
         case `${A.FIND}_LOADING`:
           return {
