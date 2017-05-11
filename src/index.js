@@ -6,9 +6,6 @@ import configureStore, {history} from './store'
 import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'react-router-redux'
 
-// eslint-disable-next-line
-import feathersClient from './feathers'
-
 const store = configureStore();
 
 ReactDOM.render(
@@ -23,7 +20,7 @@ ReactDOM.render(
 // eslint-disable-next-line
 import feathersClient, {feathersAction} from './feathers'
 const users = feathersAction('users')
-// feathersClient.authenticate({ strategy: 'local', email: 'admin@mypacka.com', password: 'qweasd123' })
+feathersClient.authenticate({ strategy: 'local', email: 'admin@mypacka.com', password: 'qweasd123' })
 window.users = users
 window.feathers = feathersClient
 window.store = store
