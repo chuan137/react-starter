@@ -10,8 +10,6 @@ const restClient = rest('http://localhost:8080/api')
 
 app.configure(hooks())
 app.configure(restClient.fetch(fetch))
-app.configure(auth({ path: '/authentication',storage: localStorage }))
-app.authenticate({ strategy: 'local', email: 'admin@mypacka.com', password: 'qweasd123' })
+app.configure(auth({ path: '/authentication', storage: localStorage }))
 
 export default app
-window.app = app;
