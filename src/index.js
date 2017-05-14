@@ -18,9 +18,12 @@ ReactDOM.render(
 );
 
 // eslint-disable-next-line
-import feathersClient, {feathersAction} from './feathers'
-const users = feathersAction('users')
-// feathersClient.authenticate({ strategy: 'local', email: 'admin@mypacka.com', password: 'qweasd123' })
+import feathersClient, {feathersActions, feathersSelectors} from './feathers'
+const users = feathersActions('users')
+const usersSelectors = feathersSelectors('users')
+feathersClient.authenticate({ strategy: 'local', email: 'admin@mypacka.com', password: 'qweasd123' })
 window.users = users
 window.feathers = feathersClient
 window.store = store
+window.getUser = usersSelectors['get']
+window.findUser = usersSelectors['find']

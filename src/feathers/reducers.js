@@ -2,23 +2,28 @@ import _reduce from 'lodash/reduce'
 import createTypes from './actiontypes'
 
 const initState = {
-  data: [],
+  data: {},
   loading: false,
   error: null,
   message: null,
-  pagination: 20
+  pages: {}
 }
 
-const normalizeData = (data) => {
-  if (data !== null && typeof data === 'object') {
-    const res = {}
-    return res[data.id] = data
-  } else {
-    return _reduce(data, function (obj, row) {
-      obj[row.id] = row
-      return obj
-    })
-  }
+const parseFind = (payload) => {
+  let data, pageNum, page;
+  data = _reduce(payload.data, function (obj, row) {
+    obj[row.id] = row
+    return obj
+  }, {})
+  pageNum = payload.skip / payload.limit
+  page = Object.keys(data)
+  return { pageNum, page, data }
+}
+
+const parseGet = (payload) => {
+  const res = {}
+  res[payload.data.id] = payload.data
+  return res
 }
 
 export default function createReducer(serviceName, endpoint) {
@@ -28,12 +33,22 @@ export default function createReducer(serviceName, endpoint) {
   return function (state = initState, action) {
     switch (action.type) {
       case ActionTypes.FIND_FULFILLED:
+        let { data, page, pageNum } = parseFind(action.payload)
+        let newPage = {}
+        newPage[pageNum] = page
+        return {
+          ...state,
+          error: null,
+          loading: false,
+          data: { ...state.data, ...data },
+          pages: { ...state.pages, ...newPage }
+        }
       case ActionTypes.GET_FULFILLED:
         return {
           ...state,
           error: null,
           loading: false,
-          data: { ...state.data, ...normalizeData(action.payload.data) }
+          data: { ...state.data, ...parseGet(action.payload) }
         }
 
       case ActionTypes.FIND_PENDING:
